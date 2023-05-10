@@ -1,15 +1,12 @@
 import java.io.IOException;
 import java.util.Scanner;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 class WrongStudentName extends Exception { }
 class WrongAge extends Exception { }
 class WrongDate extends Exception { }
 class Main {
     public static Scanner scan = new Scanner(System.in);
-    public static SimpleDateFormat dateFormat = new SimpleDateFormat("DD-MM-YYYY"); 
 
     public static void main(String[] args) {
         while(true) {
@@ -29,8 +26,7 @@ class Main {
                 System.out.println("Błędne wiek studenta!");
             } catch(WrongDate e) {
                 System.out.println("Błędna data urodzenia!");
-            } catch(ParseException e) {
-                System.out.println("Błędny format!");
+            }
         }
     }
 
@@ -45,7 +41,7 @@ class Main {
 
     public static String ReadName() throws WrongStudentName {
         scan.nextLine();
-        System.out.println("Podaj imie: ");
+        System.out.println("Podaj imie");
         String name = scan.nextLine();
         if(name.contains(" "))
             throw new WrongStudentName();
@@ -54,25 +50,32 @@ class Main {
     }
 
   public static int ReadAge() throws WrongAge {
-        System.out.println("Podaj wiek: ");
+        System.out.println("Podaj wiek");
         int age = scan.nextInt();
         if(age < 0 || age >= 120)
             throw new WrongAge();
 
         return age;
     }
-  public static String ReadDate() throws WrongDate, ParseException {
+  public static String ReadDate() throws WrongDate {
         scan.nextLine();
-        System.out.println("Podaj datę urodzenia DD-MM-YYY: ");
-        String dates = scan.nextLine();
-        Date date = dateFormat.parse(dates);
-        if(!dates.equals(dateFormat.format(date)))
+        System.out.println("Podaj dzień narodzin");
+        int dzien = scan.nextInt();
+        if(dzien<1 || dzien>31)
             throw new WrongDate();
-
-        return dates;
+        System.out.println("Podaj miesiąc narodzin");
+        int miesiac = scan.nextInt();
+        if(miesiac<1 || miesiac>12)
+            throw new WrongDate();
+        System.out.println("Podaj rok narodzin");
+        int rok = scan.nextInt();
+        if(rok<1900 || rok>2100)
+            throw new WrongDate();
+        String date = String.valueOf(dzien) +"-"+ String.valueOf(miesiac) +"-"+ String.valueOf(rok);
+        return date;
     }
   
-    public static void exercise1() throws IOException, WrongStudentName, WrongAge, WrongDate, ParseException {
+    public static void exercise1() throws IOException, WrongStudentName, WrongAge, WrongDate {
         var name = ReadName();
         var age = ReadAge();
         var date = ReadDate();
